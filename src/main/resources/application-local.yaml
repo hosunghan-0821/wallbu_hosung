@@ -1,0 +1,10 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-local-console
+
+
+
+server:
+  port: 8084
