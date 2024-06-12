@@ -23,6 +23,8 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+jwt:
+  secret-key: wallbuhosung@
 
 server:
   port: 8084
