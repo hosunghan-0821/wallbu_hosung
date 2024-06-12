@@ -1,6 +1,10 @@
-package com.preorder.global.error.dto;
+package kr.co.hanhosung.wallbu.global.error.dto;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Setter(AccessLevel.PROTECTED)
@@ -10,6 +14,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class ErrorResponseDto {
 
-    private String ErrorCode;
-    private String Message;
+    private String errorCode;
+    private String message;
 }

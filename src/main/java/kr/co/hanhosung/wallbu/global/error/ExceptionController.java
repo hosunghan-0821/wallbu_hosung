@@ -1,10 +1,10 @@
-package com.preorder.global.error;
+package kr.co.hanhosung.wallbu.global.error;
 
 
-import com.preorder.global.error.dto.ErrorResponseDto;
-import com.preorder.global.error.exception.BusinessLogicException;
-import com.preorder.global.error.exception.InvalidArgumentException;
-import com.preorder.global.error.exception.NotFoundException;
+import kr.co.hanhosung.wallbu.global.error.dto.ErrorResponseDto;
+import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
+import kr.co.hanhosung.wallbu.global.error.exception.InvalidArgumentException;
+import kr.co.hanhosung.wallbu.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,33 +20,37 @@ public class ExceptionController {
 
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseDto> handleRunTimeException(RuntimeException ex, NativeWebRequest request) {
-
-        if (ex instanceof NotFoundException) {
-            NotFoundException notFoundException = (NotFoundException) ex;
-
-            return new ResponseEntity<>(
-                    ErrorResponseDto.builder().ErrorCode(notFoundException.getErrorCode().getErrorCode()).Message(notFoundException.getErrorCode().getDefaultMessage()).build(),
-                    HttpStatus.BAD_REQUEST
-            );
-        } else if (ex instanceof InvalidArgumentException) {
-            InvalidArgumentException invalidArgumentException = (InvalidArgumentException) ex;
-
-            return new ResponseEntity<>(
-                    ErrorResponseDto.builder().ErrorCode(invalidArgumentException.getErrorCode().getErrorCode()).Message(invalidArgumentException.getErrorCode().getDefaultMessage()).build(),
-                    HttpStatus.BAD_REQUEST
-            );
-        } else if(ex instanceof BusinessLogicException) {
-            BusinessLogicException businessLogicException = (BusinessLogicException) ex;
-
-            return new ResponseEntity<>(
-                    ErrorResponseDto.builder().ErrorCode(businessLogicException.getErrorCode().getErrorCode()).Message(businessLogicException.getErrorCode().getDefaultMessage()).build(),
-                    HttpStatus.BAD_REQUEST
-            );
-        }
+    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException ex, NativeWebRequest request) {
 
         return new ResponseEntity<>(
-                ErrorResponseDto.builder().Message(ex.getMessage()).build(),
+                ErrorResponseDto.builder().message(ex.getMessage()).build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException notFoundException, NativeWebRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorResponseDto.builder().errorCode(notFoundException.getErrorCode().getErrorCode()).message(notFoundException.getErrorCode().getDefaultMessage()).build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponseDto> handleInvalidArgumentException(InvalidArgumentException invalidArgumentException, NativeWebRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorResponseDto.builder().errorCode(invalidArgumentException.getErrorCode().getErrorCode()).message(invalidArgumentException.getErrorCode().getDefaultMessage()).build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponseDto> handleBusinessLogicException(BusinessLogicException businessLogicException, NativeWebRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorResponseDto.builder().errorCode(businessLogicException.getErrorCode().getErrorCode()).message(businessLogicException.getErrorCode().getDefaultMessage()).build(),
                 HttpStatus.BAD_REQUEST
         );
     }

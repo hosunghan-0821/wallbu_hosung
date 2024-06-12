@@ -1,7 +1,7 @@
-package com.preorder.global.error.exception;
+package kr.co.hanhosung.wallbu.global.error.exception;
 
 
-import com.preorder.global.error.dto.ErrorCode;
+import kr.co.hanhosung.wallbu.global.error.dto.ErrorCode;
 
 public class InternalServerException extends RuntimeException{
 

@@ -1,4 +1,4 @@
-package com.preorder.global.error.dto;
+package kr.co.hanhosung.wallbu.global.error.dto;
 
 public class ErrorDetailMessage {
 

@@ -1,20 +1,24 @@
-package com.preorder.global.error.dto;
+package kr.co.hanhosung.wallbu.global.error.dto;
 
+
+/*
+*  Errorcode: (status code) + (application custom error number)
+*  ex) NOT_FOUND_EXCEPTION = 404 + 000 = 404000
+* */
 public enum ErrorCode {
 
     NOT_FOUND_EXCEPTION("요청한 리소스를 찾지 못하였습니다.", "404000"),
-    NOT_FOUND_EXCEPTION_PRODUCT("요청한 상품을 찾지 못하였습니다.", "404002"),
-    NOT_FOUND_EXCEPTION_OPTION("요청한 옵션을 찾지 못하였습니다.", "404003"),
-
-    NOT_FOUND_EXCEPTION_PRODUCT_OPTION("요청한 상품에 맞는 옵션을 찾지 못하였습니다","404004"),
     INTERNAL_SERVER_ERROR("서버 내부 오류", "500000"),
     INTERNAL_SERVER_ERROR_PARSING_ERROR("서버 내부 파싱 오류", "500001"),
-    INVALID_ARGUMENT_EXCEPTION("요청하신 데이터에 문제가 있습니다.", "400000"),
-    INVALID_METHOD_ARGUMENT("요청하신 데이터의 유효성 검사에 실패하였습니다.", "400001"),
-    BUSINESS_LOGIC_EXCEPTION("비지니스 로직에 해당하는 예외입니다.","400002"),
-    BUSINESS_LOGIC_EXCEPTION_REGISTER_ORDER("허용되지 않는 주문시간입니다.","400003"),
 
-    BUSINESS_LOGIC_EXCEPTION_REMAIN_PRODUCT_ERROR("상품 재고가 부족합니다.","400004");
+    //Invalid Argument Error 관련 400/100번대
+    INVALID_ARGUMENT_EXCEPTION("요청하신 데이터에 문제가 있습니다.", "400100"),
+    INVALID_ARGUMENT_METHOD_PARAMS("요청하신 데이터의 유효성 검사에 실패하였습니다.", "400101"),
+
+    //BusinessLogic Error 관련 400/200번대
+    BUSINESS_LOGIC_EXCEPTION("비지니스 로직에 해당하는 예외입니다.","400200"),
+    BUSINESS_LOGIC_EXCEPTION_REGISTER_ORDER("허용되지 않는 주문시간입니다.","400201"),
+    BUSINESS_LOGIC_EXCEPTION_USER_DUPLICATE("이미 가입된 전화번호입니다.","400202");
     private String defaultMessage;
     private String errorCode;
 
