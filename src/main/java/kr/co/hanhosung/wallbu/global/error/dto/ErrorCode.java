@@ -17,8 +17,9 @@ public enum ErrorCode {
 
     //BusinessLogic Error 관련 400/200번대
     BUSINESS_LOGIC_EXCEPTION("비지니스 로직에 해당하는 예외입니다.","400200"),
-    BUSINESS_LOGIC_EXCEPTION_REGISTER_ORDER("허용되지 않는 주문시간입니다.","400201"),
-    BUSINESS_LOGIC_EXCEPTION_USER_DUPLICATE("이미 가입된 전화번호입니다.","400202");
+    BUSINESS_LOGIC_EXCEPTION_USER_INFO_INVALID("회원정보가 유효하지 않습니다.","400201"),
+    BUSINESS_LOGIC_EXCEPTION_USER_DUPLICATE("이미 가입된 전화번호입니다.","400202"),
+    BUSINESS_LOGIC_EXCEPTION_TOKEN_INVALID("토큰이 유효하지 않습니다.","400203");
     private String defaultMessage;
     private String errorCode;
 

@@ -9,6 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import static kr.co.hanhosung.wallbu.global.error.dto.ErrorDetailMessage.INVALID_PASSWORD;
+import static kr.co.hanhosung.wallbu.global.error.dto.ErrorDetailMessage.NOT_NULL;
+
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @Builder
@@ -18,14 +25,22 @@ public class UserDto {
 
     private Long id;
 
+
+    @NotNull(message = NOT_NULL)
     private String name;
 
+    @Email
+    @NotNull(message = NOT_NULL)
     private String email;
 
+    @NotNull(message = NOT_NULL)
     private String phoneNumber;
 
+    @Pattern(regexp = "^(?!((?:[A-Z]+)|(?:[a-z]+)|(?:[0-9]+))$)[A-Za-z\\d]{6,10}$", message = INVALID_PASSWORD)
+    @NotNull(message = NOT_NULL)
     private String password;
 
+    @NotNull(message = NOT_NULL)
     private UserRole userRole;
 
 
