@@ -39,11 +39,12 @@ dependencies {
 	//JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-
 	//QueryDSL
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+	//validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//h2
 	runtimeOnly 'com.h2database:h2'
@@ -51,6 +52,7 @@ dependencies {
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
 
 	//jwt
 	implementation 'com.auth0:auth0:1.42.0'
@@ -62,6 +64,8 @@ dependencies {
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
 }
 
 //TEST
