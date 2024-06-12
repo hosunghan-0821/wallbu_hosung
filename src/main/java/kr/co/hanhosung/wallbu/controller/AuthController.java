@@ -1,10 +1,12 @@
 package kr.co.hanhosung.wallbu.controller;
 
-import kr.co.hanhosung.wallbu.dto.SignUpInfoDto;
+import kr.co.hanhosung.wallbu.dto.LoginDto;
+import kr.co.hanhosung.wallbu.dto.TokenDto;
 import kr.co.hanhosung.wallbu.dto.UserDto;
 import kr.co.hanhosung.wallbu.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +37,21 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public void login() {
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginDto loginDto) {
 
+        assert (loginDto != null);
+        assert (loginDto.getId() != null && !loginDto.getId().isEmpty());
+        assert (loginDto.getPassword() != null && !loginDto.getPassword().isEmpty());
+
+        TokenDto tokenDto = authService.login(loginDto);
+
+        assert(tokenDto != null);
+        assert(tokenDto.getAccessToken() != null && tokenDto.getRefreshToken() != null);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
+                .header("Refresh-Token", "Bearer " + tokenDto.getRefreshToken())
+                .build();
     }
 
 

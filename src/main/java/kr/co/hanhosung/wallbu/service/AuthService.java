@@ -2,28 +2,38 @@ package kr.co.hanhosung.wallbu.service;
 
 
 import kr.co.hanhosung.wallbu.domain.User;
+import kr.co.hanhosung.wallbu.dto.LoginDto;
+import kr.co.hanhosung.wallbu.dto.TokenDto;
 import kr.co.hanhosung.wallbu.dto.UserDto;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorCode;
 import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
 import kr.co.hanhosung.wallbu.global.util.encrypt.IHashService;
+import kr.co.hanhosung.wallbu.global.util.token.ITokenManager;
 import kr.co.hanhosung.wallbu.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthService {
 
-    private final IUserRepository IUserRepository;
+    private final IUserRepository iUserRepository;
 
     private final IHashService iHashService;
 
+    private final ITokenManager iTokenManager;
+
+
+    @Transactional
     public void signUp(UserDto userDto) {
 
+        assert(userDto != null);
+
         //phoneNumber 중복검사
-        User findUserOrNull = IUserRepository.findUserByPhoneNumber(userDto.getPhoneNumber()).orElse(null);
+        User findUserOrNull = iUserRepository.findUserByPhoneNumber(userDto.getPhoneNumber()).orElse(null);
 
         if (findUserOrNull != null) {
             throw new BusinessLogicException(ErrorCode.BUSINESS_LOGIC_EXCEPTION_USER_DUPLICATE);
@@ -34,9 +44,27 @@ public class AuthService {
         String encodedPassword = iHashService.encode(userDto.getPassword());
         userDto.updatePasswordByEncrypt(encodedPassword);
 
-
         //유저 저장
-        IUserRepository.save(userDto.toUserEntity());
+        iUserRepository.save(userDto.toUserEntity());
+
+    }
+
+    @Transactional(readOnly = true)
+    public TokenDto login(LoginDto loginDto) {
+
+        assert(loginDto != null);
+
+        String encodedPassword = iHashService.encode(loginDto.getPassword());
+        User findUserOrNull = iUserRepository.findUserByPhoneNumberAndPassword(loginDto.getId(), encodedPassword).orElse(null);
+
+        if (findUserOrNull == null) {
+            throw new BusinessLogicException(ErrorCode.BUSINESS_LOGIC_EXCEPTION_USER_INFO_INVALID);
+        }
+
+        String accessToken = iTokenManager.createAccessToken(findUserOrNull.getId(), findUserOrNull.getName());
+        String refreshToken = iTokenManager.createRefreshToken();
+
+        return new TokenDto(accessToken,refreshToken);
 
     }
 }

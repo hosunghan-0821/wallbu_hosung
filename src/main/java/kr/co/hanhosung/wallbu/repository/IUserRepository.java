@@ -9,5 +9,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByPhoneNumber(String phoneNumber);
 
+    Optional<User> findUserByPhoneNumberAndPassword(String phoneNumber,String password);
+
 
 }
