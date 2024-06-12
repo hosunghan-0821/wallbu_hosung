@@ -1,6 +1,5 @@
 package kr.co.hanhosung.wallbu.dto;
 
-import kr.co.hanhosung.wallbu.domain.UserRole;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +12,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpInfoDto {
+public class TokenDto {
 
-    private String name;
+    private String accessToken;
+    private String refreshToken;
 
-    private String email;
-
-    private String phoneNumber;
-
-    private String password;
-
-    private UserRole userRole;
 }
