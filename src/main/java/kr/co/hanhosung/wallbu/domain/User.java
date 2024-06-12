@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @Table(name = "tb_user")
-public class User {
+public class User  extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
