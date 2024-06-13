@@ -16,18 +16,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
         default_batch_fetch_size: 1000
-        format_sql: ture
-        show_sql: true
+        format_sql: false
+        show_sql: false
 
-    defer-datasource-initialization: true
-    generate-ddl: true
-  sql:
-    init:
-      mode: always
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+
 
 jwt:
   secret-key: wallbuhosung@
