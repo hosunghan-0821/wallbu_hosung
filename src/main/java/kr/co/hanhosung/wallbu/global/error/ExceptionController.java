@@ -3,6 +3,7 @@ package kr.co.hanhosung.wallbu.global.error;
 
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorCode;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorResponseDto;
+import kr.co.hanhosung.wallbu.global.error.exception.AuthorizationException;
 import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
 import kr.co.hanhosung.wallbu.global.error.exception.InvalidArgumentException;
 import kr.co.hanhosung.wallbu.global.error.exception.NotFoundException;
@@ -73,6 +74,15 @@ public class ExceptionController {
         return new ResponseEntity<>(
                 ErrorResponseDto.builder().errorCode(ErrorCode.INVALID_ARGUMENT_EXCEPTION.getErrorCode()).message(errorMessages).build(),
                 HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponseDto> handleAuthorizationException(AuthorizationException authorizationException, NativeWebRequest request) {
+
+        return new ResponseEntity<>(
+                ErrorResponseDto.builder().errorCode(authorizationException.getErrorCode().getErrorCode()).message(authorizationException.getErrorCode().getDefaultMessage()).build(),
+                HttpStatus.UNAUTHORIZED
         );
     }
 
