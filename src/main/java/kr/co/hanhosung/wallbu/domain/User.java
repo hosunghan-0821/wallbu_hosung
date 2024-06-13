@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,6 +30,7 @@ public class User  extends BaseEntity{
 
     private String email;
 
+    @Column(unique = true)
     private String phoneNumber;
 
     private String password;
