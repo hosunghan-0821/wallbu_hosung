@@ -22,7 +22,12 @@ public enum ErrorCode {
     BUSINESS_LOGIC_EXCEPTION("비지니스 로직에 해당하는 예외입니다.","400200"),
     BUSINESS_LOGIC_EXCEPTION_USER_INFO_INVALID("회원정보가 유효하지 않습니다.","400201"),
     BUSINESS_LOGIC_EXCEPTION_USER_DUPLICATE("이미 가입된 전화번호입니다.","400202"),
-    BUSINESS_LOGIC_EXCEPTION_TOKEN_INVALID("토큰이 유효하지 않습니다.","400203"),
+    BUSINESS_LOGIC_EXCEPTION_USER_ROLE_INVALID("강사 회원만 강좌를 등록할 수 있습니다.","400203"),
+    BUSINESS_LOGIC_EXCEPTION_NOT_REMAIN_SEAT_IN_LECTURE("강좌 신청이 마감되었습니다.","400204"),
+
+    BUSINESS_LOGIC_EXCEPTION_ALREADY_ENROLLMENT("이미 신청이 된 유저입니다.","400205"),
+
+    BUSINESS_LOGIC_EXCEPTION_INVALID_LECTURE("유효한 강좌가 없습니다.","400206"),
     //Authorization Exception 401/0번대
     AUTHORIZATION_EXCEPTION("유효하지 않은 인증입니다.","401001");
 
