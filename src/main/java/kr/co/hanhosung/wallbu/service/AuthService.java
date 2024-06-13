@@ -82,10 +82,7 @@ public class AuthService {
 
         assert (tokenDto != null);
         assert (tokenDto.getAccessToken() != null && tokenDto.getRefreshToken() != null);
-
-        //0. Bearer Prefix 제거
-        tokenDto.deleteTokenPrefix();
-
+        
         String accessToken = tokenDto.getAccessToken();
         String refreshToken = tokenDto.getRefreshToken();
 
