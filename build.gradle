@@ -59,7 +59,7 @@ dependencies {
 	implementation 'com.auth0:java-jwt:4.0.0'
 
 	//swagger
-	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.3'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

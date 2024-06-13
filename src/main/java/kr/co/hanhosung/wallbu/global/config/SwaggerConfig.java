@@ -1,17 +1,16 @@
 package kr.co.hanhosung.wallbu.global.config;
 
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,48 +20,47 @@ import java.util.List;
 public class SwaggerConfig {
 
     @Bean
-    public Docket apiV2Docket() {
+    public OpenAPI getOpenApi() {
 
-        ApiInfo apiInfo = apiInfo("WALLBU", "api", "0.1.0");
+        SecurityRequirement securityItem = new SecurityRequirement()
+                .addList("JWT");
+        SecurityRequirement securityItem2 = new SecurityRequirement()
+                .addList("Refresh-Token");
 
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo)
-                .groupName(apiInfo.getVersion())
-                .securitySchemes(Arrays.asList(apikey()))
-                .securityContexts(Arrays.asList(securityContext()))
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("kr.co.hanhosung.wallbu.controller"))
-                .build();
+
+        return new OpenAPI()
+                .info(getApiInfo())
+                .components(getComponents())
+                .addSecurityItem(securityItem)
+                .addSecurityItem(securityItem2);
     }
 
-    private ApiInfo apiInfo(String title, String description, String version) {
-        return new ApiInfo(
-                title,
-                description,
-                "version." + version,
-                "",
-                ApiInfo.DEFAULT_CONTACT,
-                "licence",
-                "hr.nexmoa.com",
-                new ArrayList<>()
-        );
+
+    private Info getApiInfo() {
+        return new Info()
+                .title("Wallbu")
+                .description("TEST API")
+                .version("0.1.0");
     }
 
-    // JWT SecurityContext 구성
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .build();
+    private Components getComponents() {
+        return new Components()
+                .addSecuritySchemes("JWT", getJwtSecurityScheme())
+                .addSecuritySchemes("Refresh-Token", getRefreshSecurityScheme());
     }
 
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
-    }
-    private ApiKey apikey() {
-        return new ApiKey("Authorization", "Authorization", "header");
+    private SecurityScheme getJwtSecurityScheme() {
+        return new SecurityScheme()
+                .type(SecurityScheme.Type.APIKEY)
+                .in(SecurityScheme.In.HEADER)
+                .name(HttpHeaders.AUTHORIZATION);
     }
 
+    private SecurityScheme getRefreshSecurityScheme() {
+
+        return new SecurityScheme()
+                .type(SecurityScheme.Type.APIKEY)
+                .in(SecurityScheme.In.HEADER)
+                .name("Refresh-token");
+    }
 }
