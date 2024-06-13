@@ -3,6 +3,7 @@ package kr.co.hanhosung.wallbu.controller;
 import kr.co.hanhosung.wallbu.dto.LoginDto;
 import kr.co.hanhosung.wallbu.dto.TokenDto;
 import kr.co.hanhosung.wallbu.dto.UserDto;
+import kr.co.hanhosung.wallbu.global.error.exception.AuthorizationException;
 import kr.co.hanhosung.wallbu.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthController {
-
+    public static final String REFRESH_TOKEN = "Refresh-Token";
+    public static final String TOKEN_PREFIX = "Bearer ";
 
     private final AuthService authService;
 
@@ -45,19 +47,34 @@ public class AuthController {
 
         TokenDto tokenDto = authService.login(loginDto);
 
-        assert(tokenDto != null);
-        assert(tokenDto.getAccessToken() != null && tokenDto.getRefreshToken() != null);
+        assert (tokenDto != null);
+        assert (tokenDto.getAccessToken() != null && tokenDto.getRefreshToken() != null);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
-                .header("Refresh-Token", "Bearer " + tokenDto.getRefreshToken())
+                .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + tokenDto.getAccessToken())
+                .header(REFRESH_TOKEN, TOKEN_PREFIX + tokenDto.getRefreshToken())
                 .build();
     }
 
 
     @GetMapping("/auth/refresh")
-    public void getAccessTokenByRefreshToken(HttpServletRequest request) {
-        log.info("get Refresh");
+    public ResponseEntity<Void> getAccessTokenByRefreshToken(HttpServletRequest request) {
+
+        String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String refreshToken = request.getHeader(REFRESH_TOKEN);
+
+        if (accessToken == null || refreshToken == null) {
+            log.error("fail generate new access token");
+            throw new AuthorizationException();
+        }
+
+        String generatedAccessToken = authService.getAccessTokenByRefreshToken(new TokenDto(accessToken, refreshToken));
+
+        assert (generatedAccessToken != null && !generatedAccessToken.isEmpty());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, TOKEN_PREFIX + generatedAccessToken)
+                .build();
     }
 
 }

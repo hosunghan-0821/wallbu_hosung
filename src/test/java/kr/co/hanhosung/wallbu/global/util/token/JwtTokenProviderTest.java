@@ -2,6 +2,7 @@ package kr.co.hanhosung.wallbu.global.util.token;
 
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import kr.co.hanhosung.wallbu.global.error.exception.AuthorizationException;
 import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class JwtTokenProviderTest {
     @DisplayName("[성공] : AccessToken 생성 테스트")
     void createAccessToken() {
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, new JwtDecoder(WALLBU_HOSUNG));
-        String accessToken = jwtTokenProvider.createAccessToken(1L, "hosung");
+        String accessToken = jwtTokenProvider.createAccessToken(1L);
         Assertions.assertNotNull(accessToken);
     }
 
@@ -38,7 +39,7 @@ class JwtTokenProviderTest {
     void verifyToken() {
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, new JwtDecoder(WALLBU_HOSUNG));
-        String accessToken = jwtTokenProvider.createAccessToken(1L, "hosung");
+        String accessToken = jwtTokenProvider.createAccessToken(1L);
         jwtTokenProvider.verifyToken(accessToken);
 
     }
@@ -48,7 +49,7 @@ class JwtTokenProviderTest {
     void getUserIdByToken() {
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, new JwtDecoder(WALLBU_HOSUNG));
-        String accessToken = jwtTokenProvider.createAccessToken(1L, "hosung");
+        String accessToken = jwtTokenProvider.createAccessToken(1L);
         jwtTokenProvider.verifyToken(accessToken);
         long userId = jwtTokenProvider.decodeUserId(accessToken);
 
@@ -62,10 +63,10 @@ class JwtTokenProviderTest {
     void verifyTokenFail() {
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, new JwtDecoder(WALLBU_HOSUNG));
-        String accessToken = jwtTokenProvider.createAccessToken(1L, "hosung");
+        String accessToken = jwtTokenProvider.createAccessToken(1L);
 
         JwtTokenProvider jwtTokenProviderAnother = new JwtTokenProvider(WALLBU_HOSUNG_ANOTHER, new JwtDecoder(WALLBU_HOSUNG_ANOTHER));
-        Assertions.assertThrows(BusinessLogicException.class, () -> jwtTokenProviderAnother.verifyToken(accessToken));
+        Assertions.assertThrows(AuthorizationException.class, () -> jwtTokenProviderAnother.verifyToken(accessToken));
     }
 
 
@@ -74,9 +75,9 @@ class JwtTokenProviderTest {
     void verifyTokenFail2() {
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, -1000L, 0L, new JwtDecoder(WALLBU_HOSUNG));
-        String accessToken = jwtTokenProvider.createAccessToken(1L, "hosung");
+        String accessToken = jwtTokenProvider.createAccessToken(1L);
 
-        Assertions.assertThrows(BusinessLogicException.class, () -> jwtTokenProvider.verifyToken(accessToken));
+        Assertions.assertThrows(AuthorizationException.class, () -> jwtTokenProvider.verifyToken(accessToken));
 
     }
 }

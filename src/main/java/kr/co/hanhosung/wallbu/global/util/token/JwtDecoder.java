@@ -18,9 +18,6 @@ public class JwtDecoder {
 
     private String secretKey;
 
-    public JwtDecoder() {
-    }
-
     public JwtDecoder(@Value("${jwt.secret-key}") String secretKey) {
 
         assert (secretKey != null && !secretKey.isEmpty());
@@ -32,18 +29,17 @@ public class JwtDecoder {
     public DecodedJWT getDecodedTokenOrNull(String token) {
 
         DecodedJWT decodedJwt = null;
-        try{
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT
                     .require(algorithm)
                     .build();
             decodedJwt = verifier.verify(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
 
         return decodedJwt;
-
 
 
     }

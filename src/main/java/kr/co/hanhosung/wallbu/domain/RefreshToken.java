@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @Table(name = "tb_token")
-public class RefreshToken extends BaseEntity{
+public class RefreshToken extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
