@@ -82,15 +82,16 @@ public class AuthService {
 
         assert (tokenDto != null);
         assert (tokenDto.getAccessToken() != null && tokenDto.getRefreshToken() != null);
-        
+
         String accessToken = tokenDto.getAccessToken();
         String refreshToken = tokenDto.getRefreshToken();
 
         //1. Refresh Token 유효성 검증
         iTokenManager.verifyToken(refreshToken);
 
-        //2. DB RefreshToken 정보와 accessToken Token 값 검증
+        //2. DB RefreshToken 검증 && accessToken id
         long userId = iTokenManager.decodeUserId(accessToken);
+
         iTokenRepository.findUserByRefreshTokenAndUserId(refreshToken, userId).orElseThrow(AuthorizationException::new);
 
         //3. 새로운 accessToken 발급

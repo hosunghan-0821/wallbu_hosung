@@ -2,6 +2,7 @@ package kr.co.hanhosung.wallbu.global.util.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.impl.JWTParser;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,6 @@ public class JwtDecoder {
 
     public DecodedJWT getDecodedTokenOrNull(String token) {
 
-        //인증 전 전처리
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
         DecodedJWT decodedJwt = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);

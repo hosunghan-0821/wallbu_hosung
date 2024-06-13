@@ -80,7 +80,7 @@ public class JwtTokenProvider implements ITokenManager {
     public void verifyToken(String token) {
 
         assert (token != null);
-
+        token = removePrefix(token);
         DecodedJWT decodedTokenOrNull = jwtDecoder.getDecodedTokenOrNull(token);
         if (decodedTokenOrNull == null) {
             throw new AuthorizationException();
@@ -90,12 +90,19 @@ public class JwtTokenProvider implements ITokenManager {
 
     @Override
     public long decodeUserId(String token) {
-        DecodedJWT decodedTokenOrNull = jwtDecoder.getDecodedTokenOrNull(token);
-
-        if (decodedTokenOrNull == null) {
-            throw new AuthorizationException();
-        }
+        token = removePrefix(token);
+        DecodedJWT decodedTokenOrNull = JWT.decode(token);
 
         return decodedTokenOrNull.getClaim(JWT_CLAIM_USER_KEY).asLong();
     }
+
+    private String removePrefix(String token) {
+        if (token.startsWith("Bearer ")) {
+            return token.substring(7);
+        } else {
+            return token;
+        }
+    }
+
+
 }
