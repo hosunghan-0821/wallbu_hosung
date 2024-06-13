@@ -28,6 +28,10 @@ public class JwtDecoder {
 
     public DecodedJWT getDecodedTokenOrNull(String token) {
 
+        //인증 전 전처리
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         DecodedJWT decodedJwt = null;
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
