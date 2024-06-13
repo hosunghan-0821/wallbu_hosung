@@ -24,7 +24,7 @@ public class FilterConfig {
 
         FilterRegistrationBean<JwtAuthFilter> registrationBean = new FilterRegistrationBean<JwtAuthFilter>();
         registrationBean.setFilter(new JwtAuthFilter(iTokenManager));
-        registrationBean.addUrlPatterns("/api/lectures/*","/api/user/*");
+        registrationBean.addUrlPatterns("/api/lectures/*","/api/users/*");
         return registrationBean;
     }
 }
