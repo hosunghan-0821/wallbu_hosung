@@ -11,8 +11,12 @@ import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
 import kr.co.hanhosung.wallbu.repository.ILectureRepository;
 import kr.co.hanhosung.wallbu.repository.ILectureUserRepository;
 import kr.co.hanhosung.wallbu.repository.IUserRepository;
+import kr.co.hanhosung.wallbu.repository.LectureCustomRepository;
+import kr.co.hanhosung.wallbu.service.enumerate.SortingType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +37,8 @@ public class LectureService {
     private final ILectureUserRepository iLectureUserRepository;
 
     private final IUserRepository iUserRepository;
+
+    private final LectureCustomRepository lectureCustomRepository;
 
     @Transactional
     public void registerLecture(LectureDto lectureDto, long userId) {
@@ -91,6 +97,17 @@ public class LectureService {
 
     }
 
+    @Transactional(readOnly = true)
+    public void getLectureList(Pageable pageable, SortingType sortingType) {
+
+        Page<Lecture> lectureWithSorting = lectureCustomRepository.pagingLectureWithSortingType(pageable,sortingType);
+
+        for (Lecture lecture : lectureWithSorting.getContent()) {
+            System.out.println("lecture = " + lecture.getTitle() + "id = " + lecture.getId() + " student count = " + lecture.getStudentCount());
+        }
+        //변환
+    }
+
     private Map<Long, List<Long>> getLectureUserMap(List<LectureUser> lectureUserList) {
         Map<Long, List<Long>> lectureUserMap = new HashMap<>();
         //상품 개수 정보 추출
@@ -107,4 +124,6 @@ public class LectureService {
         }
         return lectureUserMap;
     }
+
+
 }
