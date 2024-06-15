@@ -16,19 +16,19 @@ INSERT INTO tb_user(email,name,password,phone_number,user_role)
 VALUES ('winsomed33@naver.com', '이새미', '952f15428895417265636f84ae9e7dfeb2e937ee0fc24cdd8c015b4e54a701e9', '01095756304','PROFESSOR');
 
 --강좌 정보 자동 insert
-INSERT INTO tb_lecture(title, student_count, max_student_count, price)
-VALUES ('강좌1', 2, 10, 10000);
+INSERT INTO tb_lecture(title, student_count, max_student_count, price, create_user_id)
+VALUES ('강좌1', 2, 10, 10000, 3);
 
-INSERT INTO tb_lecture(title, student_count, max_student_count, price)
-VALUES ('강좌2', 1, 10, 10000);
+INSERT INTO tb_lecture(title, student_count, max_student_count, price, create_user_id)
+VALUES ('강좌2', 1, 10, 10000, 4);
 
-INSERT INTO tb_lecture(title, student_count, max_student_count, price)
-VALUES ('강좌3', 3, 20, 10000);
+INSERT INTO tb_lecture(title, student_count, max_student_count, price, create_user_id)
+VALUES ('강좌3', 3, 20, 10000, 5);
 
-INSERT INTO tb_lecture(title, student_count, max_student_count, price)
-VALUES ('강좌4', 9, 10, 10000);
+INSERT INTO tb_lecture(title, student_count, max_student_count, price, create_user_id)
+VALUES ('강좌4', 9, 10, 10000, 3);
 
-INSERT INTO tb_lecture(title, student_count, max_student_count, price)
-VALUES ('강좌5', 0, 10, 10000);
+INSERT INTO tb_lecture(title, student_count, max_student_count, price, create_user_id)
+VALUES ('강좌5', 0, 10, 10000, 4);
 
 
