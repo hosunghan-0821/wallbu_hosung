@@ -54,7 +54,7 @@ public class AuthService {
 
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenDto login(LoginDto loginDto) {
 
         assert (loginDto != null);
