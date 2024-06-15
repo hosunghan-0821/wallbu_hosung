@@ -40,7 +40,6 @@ public class UserDto {
 
     @Pattern(regexp = "^(?!((?:[A-Z]+)|(?:[a-z]+)|(?:[0-9]+))$)[A-Za-z\\d]{6,10}$", message = INVALID_PASSWORD)
     @NotNull(message = NOT_NULL)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull(message = NOT_NULL)
@@ -48,11 +47,15 @@ public class UserDto {
 
 
     public static UserDto toUserDto(User user) {
-        return UserDto.builder()
+        UserDto userDto = UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .userRole(user.getUserRole())
                 .build();
+
+        assert (userDto.getPassword() == null);
+
+        return userDto;
     }
 
     public User toUserEntity() {
