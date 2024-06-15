@@ -92,7 +92,8 @@ public class AuthService {
         //2. DB RefreshToken 검증 && accessToken id
         long userId = iTokenManager.decodeUserId(accessToken);
 
-        iTokenRepository.findUserByRefreshTokenAndUserId(refreshToken, userId).orElseThrow(AuthorizationException::new);
+
+        iTokenRepository.findRefreshTokenByRefreshTokenAndUserId(refreshToken, userId).orElseThrow(AuthorizationException::new);
 
         //3. 새로운 accessToken 발급
         return iTokenManager.createAccessToken(userId);
