@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.hanhosung.wallbu.domain.Lecture;
+import kr.co.hanhosung.wallbu.domain.QUser;
 import kr.co.hanhosung.wallbu.service.enumerate.SortingType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static kr.co.hanhosung.wallbu.domain.QLecture.lecture;
+import static kr.co.hanhosung.wallbu.domain.QUser.user;
 
 
 @RequiredArgsConstructor
@@ -23,7 +25,6 @@ public class LectureCustomRepository {
 
     private final JPAQueryFactory queryFactory;
 
-
     public Page<Lecture> pagingLectureWithSortingType(Pageable pageable, SortingType sortingType) {
 
         JPAQuery<Lecture> lectureJPAQuery = null;
@@ -31,11 +32,14 @@ public class LectureCustomRepository {
             case RECENTLY_REGISTERED:
                 lectureJPAQuery = queryFactory
                         .selectFrom(lecture)
+                        .leftJoin(lecture.createUser, user).fetchJoin()
                         .orderBy(lecture.id.desc());
 
                 break;
             case MOST_STUDENTS:
-                lectureJPAQuery = queryFactory.selectFrom(lecture)
+                lectureJPAQuery = queryFactory
+                        .selectFrom(lecture)
+                        .leftJoin(lecture.createUser, user).fetchJoin()
                         .orderBy(lecture.studentCount.desc());
                 break;
             case HIGHEST_STUDENTS_RATE:
@@ -43,6 +47,7 @@ public class LectureCustomRepository {
 
                 lectureJPAQuery = queryFactory
                         .selectFrom(lecture)
+                        .leftJoin(lecture.createUser, user).fetchJoin()
                         .orderBy(sortExpression.desc());
                 break;
             default:

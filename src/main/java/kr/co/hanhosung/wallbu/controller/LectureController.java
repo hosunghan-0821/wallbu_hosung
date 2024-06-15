@@ -54,10 +54,10 @@ public class LectureController {
     }
 
     @GetMapping("/lectures")
-    public ResponseEntity<Page<LectureDto>> getLectureList(Pageable pageable, @RequestParam(value = "sort",defaultValue = "RECENTLY_REGISTERED") SortingType sortingType) {
+    public ResponseEntity<Page<LectureDto>> getLectureList(Pageable pageable, @RequestParam(value = "sort", defaultValue = "RECENTLY_REGISTERED") SortingType sortingType) {
 
-        lectureService.getLectureList(pageable,sortingType);
-        return null;
+        Page<LectureDto> lectureList = lectureService.getLectureList(pageable, sortingType);
+        return new ResponseEntity<>(lectureList, HttpStatus.OK);
     }
 
 }

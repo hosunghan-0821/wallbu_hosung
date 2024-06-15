@@ -35,10 +35,13 @@ public class LectureDto {
 
     private Long studentCount;
 
+    private UserDto createUser;
+
     public Lecture toLectureEntity(User createUser) {
 
         assert (title != null && maxStudentCount != null && price != null);
 
         return new Lecture(this.title, this.maxStudentCount, this.price, createUser);
     }
+
 }

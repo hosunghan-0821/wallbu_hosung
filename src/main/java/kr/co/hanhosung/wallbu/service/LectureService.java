@@ -5,6 +5,7 @@ import kr.co.hanhosung.wallbu.domain.LectureUser;
 import kr.co.hanhosung.wallbu.domain.User;
 import kr.co.hanhosung.wallbu.domain.UserRole;
 import kr.co.hanhosung.wallbu.dto.LectureDto;
+import kr.co.hanhosung.wallbu.dto.UserDto;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorCode;
 import kr.co.hanhosung.wallbu.global.error.exception.AuthorizationException;
 import kr.co.hanhosung.wallbu.global.error.exception.BusinessLogicException;
@@ -16,6 +17,7 @@ import kr.co.hanhosung.wallbu.service.enumerate.SortingType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,7 +76,7 @@ public class LectureService {
             throw new BusinessLogicException(ErrorCode.BUSINESS_LOGIC_EXCEPTION_INVALID_LECTURE);
         }
 
-        //해당 강좌에 등록한 유저 가져오기 (중복 막기위해서)
+        //해당 강좌에 등록한 유저 가져오기 (중복 등록 막기)
         List<LectureUser> lectureUserList = iLectureUserRepository.findAllStudentByLectureIdList(lectureIdList);
         Map<Long, List<Long>> lectureUserMap = getLectureUserMap(lectureUserList);
 
@@ -98,17 +100,26 @@ public class LectureService {
     }
 
     @Transactional(readOnly = true)
-    public void getLectureList(Pageable pageable, SortingType sortingType) {
+    public Page<LectureDto> getLectureList(Pageable pageable, SortingType sortingType) {
 
-        Page<Lecture> lectureWithSorting = lectureCustomRepository.pagingLectureWithSortingType(pageable,sortingType);
+        assert (pageable != null);
+        assert (sortingType != null);
 
+        Page<Lecture> lectureWithSorting = lectureCustomRepository.pagingLectureWithSortingType(pageable, sortingType);
+
+        List<LectureDto> lectureDtoList = new ArrayList<>();
         for (Lecture lecture : lectureWithSorting.getContent()) {
-            System.out.println("lecture = " + lecture.getTitle() + "id = " + lecture.getId() + " student count = " + lecture.getStudentCount());
+
+            UserDto createUserDto = UserDto.toUserDto(lecture.getCreateUser());
+            lectureDtoList.add(new LectureDto(lecture.getId(), lecture.getTitle(), lecture.getMaxStudentCount(), lecture.getPrice(), lecture.getStudentCount(), createUserDto));
         }
-        //변환
+        return new PageImpl<>(lectureDtoList, pageable, lectureWithSorting.getTotalElements());
     }
 
     private Map<Long, List<Long>> getLectureUserMap(List<LectureUser> lectureUserList) {
+
+        assert (lectureUserList != null);
+
         Map<Long, List<Long>> lectureUserMap = new HashMap<>();
         //상품 개수 정보 추출
         for (LectureUser lectureUser : lectureUserList) {
