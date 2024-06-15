@@ -86,7 +86,7 @@ public class LectureService {
             if (lecture.getStudentCount().longValue() >= lecture.getMaxStudentCount().longValue()) {
                 throw new BusinessLogicException(ErrorCode.BUSINESS_LOGIC_EXCEPTION_NOT_REMAIN_SEAT_IN_LECTURE);
             }
-            //이미 등록되 있으면 오류 or 패스 (?) .. -> 일단 오류
+            //TO-DO: 이미 등록되 있으면  오류 or 패스 (?) .. -> 일단 오류
             if (lectureUserMap.get(lecture.getId()) != null && lectureUserMap.get(lecture.getId()).contains(userId)) {
                 throw new BusinessLogicException(ErrorCode.BUSINESS_LOGIC_EXCEPTION_ALREADY_ENROLLMENT);
             }

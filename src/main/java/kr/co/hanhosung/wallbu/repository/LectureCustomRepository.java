@@ -55,8 +55,12 @@ public class LectureCustomRepository {
         }
         assert (lectureJPAQuery != null);
 
+        // 본쿼리 paging
         List<Lecture> resultLectureList = lectureJPAQuery.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
+
+        // 카운트쿼리
         Long totalCount = queryFactory.select(lecture.count()).from(lecture).fetchOne();
+
         assert (totalCount != null);
 
         return new PageImpl<>(resultLectureList, pageable, totalCount);
