@@ -1,5 +1,7 @@
 package kr.co.hanhosung.wallbu.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.co.hanhosung.wallbu.domain.User;
 import kr.co.hanhosung.wallbu.domain.UserRole;
 import lombok.AccessLevel;
@@ -38,11 +40,20 @@ public class UserDto {
 
     @Pattern(regexp = "^(?!((?:[A-Z]+)|(?:[a-z]+)|(?:[0-9]+))$)[A-Za-z\\d]{6,10}$", message = INVALID_PASSWORD)
     @NotNull(message = NOT_NULL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull(message = NOT_NULL)
     private UserRole userRole;
 
+
+    public static UserDto toUserDto(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .userRole(user.getUserRole())
+                .build();
+    }
 
     public User toUserEntity() {
 
@@ -57,5 +68,6 @@ public class UserDto {
     public void updatePasswordByEncrypt(String password) {
         this.password = password;
     }
+
 
 }
