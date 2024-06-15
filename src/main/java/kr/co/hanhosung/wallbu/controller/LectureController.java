@@ -70,7 +70,7 @@ public class LectureController {
     @ApiResponse(responseCode = "200", description = "강좌 조회")
     @ApiResponse(responseCode = "401", description = "유저 토큰 유효하지 않음")
     @GetMapping("/lectures")
-    public ResponseEntity<Page<LectureDto>> getLectureList(@Parameter(hidden = true) Pageable pageable, @RequestParam(value = "sort", defaultValue = "RECENTLY_REGISTERED") SortingType sortingType) {
+    public ResponseEntity<Page<LectureDto>> getLectureList(Pageable pageable, @RequestParam(value = "sort", defaultValue = "RECENTLY_REGISTERED") SortingType sortingType) {
 
         Page<LectureDto> lectureList = lectureService.getLectureList(pageable, sortingType);
         return new ResponseEntity<>(lectureList, HttpStatus.OK);
