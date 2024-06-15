@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Getter
 @Setter(AccessLevel.PROTECTED)
 @Table(name = "tb_user")
-public class User  extends BaseEntity{
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +49,23 @@ public class User  extends BaseEntity{
         assert (password != null);
         assert (userRole != null);
 
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
+    public User(Long id, String name, String email, String phoneNumber, String password, UserRole userRole) {
+
+        assert (id != null);
+        assert (name != null && !name.isEmpty());
+        assert (email != null && !email.isEmpty());
+        assert (phoneNumber != null);
+        assert (password != null);
+        assert (userRole != null);
+
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
