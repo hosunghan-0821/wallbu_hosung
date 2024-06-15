@@ -1,6 +1,6 @@
 package kr.co.hanhosung.wallbu.dto;
 
-import kr.co.hanhosung.wallbu.config.TestConfiguration;
+import kr.co.hanhosung.wallbu.config.MvcTestConfiguration;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorDetailMessage;
 import kr.co.hanhosung.wallbu.global.validation.ValidationMarker;
 import org.assertj.core.api.Assertions;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.validation.ConstraintViolation;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @WebMvcTest
-@Import({TestConfiguration.class})
+@Import({MvcTestConfiguration.class})
 class LectureDtoTest {
 
     @Autowired

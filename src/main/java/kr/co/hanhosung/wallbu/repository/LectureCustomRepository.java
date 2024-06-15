@@ -40,7 +40,7 @@ public class LectureCustomRepository {
                 lectureJPAQuery = queryFactory
                         .selectFrom(lecture)
                         .leftJoin(lecture.createUser, user).fetchJoin()
-                        .orderBy(lecture.studentCount.desc());
+                        .orderBy(lecture.studentCount.desc(), lecture.id.desc());
                 break;
             case HIGHEST_STUDENTS_RATE:
                 NumberExpression<Double> sortExpression = lecture.studentCount.doubleValue().divide(lecture.maxStudentCount);
@@ -48,7 +48,7 @@ public class LectureCustomRepository {
                 lectureJPAQuery = queryFactory
                         .selectFrom(lecture)
                         .leftJoin(lecture.createUser, user).fetchJoin()
-                        .orderBy(sortExpression.desc());
+                        .orderBy(sortExpression.desc(), lecture.id.desc());
                 break;
             default:
                 assert (false) : "invalid enum value sortingType ";

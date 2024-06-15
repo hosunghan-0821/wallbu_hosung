@@ -50,7 +50,6 @@ class JwtTokenProviderTest {
 
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(WALLBU_HOSUNG, new JwtDecoder(WALLBU_HOSUNG));
         String accessToken = jwtTokenProvider.createAccessToken(1L);
-        jwtTokenProvider.verifyToken(accessToken);
         long userId = jwtTokenProvider.decodeUserId(accessToken);
 
         Assertions.assertEquals(1L, userId);

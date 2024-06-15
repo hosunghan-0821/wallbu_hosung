@@ -52,6 +52,9 @@ public class Lecture extends BaseEntity {
     }
 
     public void upStudentCount() {
+        if (this.studentCount >= this.maxStudentCount) {
+            assert (false) : "studentCount already full, call this method must be error";
+        }
         this.studentCount++;
     }
 }

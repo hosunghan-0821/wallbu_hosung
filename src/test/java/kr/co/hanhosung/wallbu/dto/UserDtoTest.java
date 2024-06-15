@@ -1,17 +1,13 @@
 package kr.co.hanhosung.wallbu.dto;
 
-import kr.co.hanhosung.wallbu.config.TestConfiguration;
+import kr.co.hanhosung.wallbu.config.MvcTestConfiguration;
 import kr.co.hanhosung.wallbu.domain.UserRole;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorDetailMessage;
-import kr.co.hanhosung.wallbu.global.util.token.ITokenManager;
-import kr.co.hanhosung.wallbu.service.AuthService;
-import kr.co.hanhosung.wallbu.service.LectureService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.validation.ConstraintViolation;
@@ -22,10 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @WebMvcTest
-@Import({TestConfiguration.class})
+@Import({MvcTestConfiguration.class})
 class UserDtoTest {
 
     @Autowired

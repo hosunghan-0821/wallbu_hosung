@@ -1,6 +1,6 @@
 package kr.co.hanhosung.wallbu.dto;
 
-import kr.co.hanhosung.wallbu.config.TestConfiguration;
+import kr.co.hanhosung.wallbu.config.MvcTestConfiguration;
 import kr.co.hanhosung.wallbu.global.error.dto.ErrorDetailMessage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @WebMvcTest
-@Import({TestConfiguration.class})
+@Import({MvcTestConfiguration.class})
 class LoginDtoTest {
 
     @Autowired
